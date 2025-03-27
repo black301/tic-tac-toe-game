@@ -1,11 +1,12 @@
 from tkinter import *
 def evaluateTerminal(board):
     for i in range(3):
+        
         if board[i][0] == board[i][1] == board[i][2] != "":
             return 1 if board[i][0] == "X" else -1
-    for j in range(3):
-        if board[0][j] == board[1][j] == board[2][j] != "":
-            return 1 if board[0][j] == "X" else -1
+        if board[0][i] == board[1][i] == board[2][i] != "":
+            return 1 if board[0][i] == "X" else -1
+        
     if board[0][0] == board[1][1] == board[2][2] != "":
         return 1 if board[0][0] == "X" else -1
     if board[0][2] == board[1][1] == board[2][0] != "":
@@ -51,22 +52,21 @@ def bestMove():
 def checkWinner():
     for i in range(3):
         if Buttons[i][0]["text"] == Buttons[i][1]["text"] == Buttons[i][2]["text"] != "":
-            for j in range(3):
-                Buttons[i][j].config(bg="green")
+            [Buttons[i][j].config(bg="green") for j in range(3)]
             return 1 if Buttons[i][0]["text"] == "X" else -1
-    for j in range(3):
-        if Buttons[0][j]["text"] == Buttons[1][j]["text"] == Buttons[2][j]["text"] != "":
-            for i in range(3):
-                Buttons[i][j].config(bg="green")
+        
+        if Buttons[0][i]["text"] == Buttons[1][i]["text"] == Buttons[2][i]["text"] != "":
+            [Buttons[j][i].config(bg="green") for j in range(3)]
             return 1 if Buttons[0][j]["text"] == "X" else -1
+    
     if Buttons[0][0]["text"] == Buttons[1][1]["text"] == Buttons[2][2]["text"] != "":
-        for i in range(3):
-            Buttons[i][i].config(bg="green")
+        [Buttons[j][j].config(bg="green") for j in range(3)]
         return 1 if Buttons[0][0]["text"] == "X" else -1
+    
     if Buttons[0][2]["text"] == Buttons[1][1]["text"] == Buttons[2][0]["text"] != "":
-        for i in range(3):
-            Buttons[i][2-i].config(bg="green")
+        [Buttons[j][2-j].config(bg="green") for j in range(3)]
         return 1 if Buttons[0][2]["text"] == "X" else -1
+    
     if all(Buttons[i][j]["text"] != "" for i in range(3) for j in range(3)):
         [Buttons[i][j].config(bg="yellow") for i in range(3) for j in range(3)]
         return 2
@@ -99,9 +99,8 @@ def nextTurn(row, column):
         updateAfterMove()
 
 def disableButtons():
-    for i in range(3):
-        for j in range(3):
-            Buttons[i][j].config(state=DISABLED)
+    [Buttons[i][j].config(state=DISABLED) for i in range(3) for j in range(3)]
+
 
 def resetGame():
     global Turn
