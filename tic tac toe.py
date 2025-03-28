@@ -122,14 +122,13 @@ def startGame(starter):
 window = Tk()
 window.title("AI Task")
 
-# Start Menu Frame
 startFrame = Frame(window)
 Label(startFrame, text=" it is a tie or Ai Wins game\n but choose Who should start ", font=("Arial", 24)).pack(pady=20)
 Button(startFrame, text="Player", font=("Arial", 20), command=lambda: startGame("Player")).pack(pady=10)
 Button(startFrame, text="AI", font=("Arial", 20), command=lambda: startGame("AI")).pack(pady=10)
 startFrame.pack()
 
-# Game Frame (initially hidden)
+# hidden
 gameFrame = Frame(window)
 
 label = Label(gameFrame, font=("Arial", 24))
@@ -141,7 +140,6 @@ resetBTN.pack(side=TOP, pady=10)
 frame = Frame(gameFrame)
 frame.pack()
 
-# Increase button size and font for a larger board
 Buttons = [[None for _ in range(3)] for _ in range(3)]
 for i in range(3):
     for j in range(3):
