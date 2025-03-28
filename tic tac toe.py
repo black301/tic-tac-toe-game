@@ -103,21 +103,19 @@ def disableButtons():
 
 
 def resetGame():
-    global Turn
-    Turn = None
-    label.config(text="Choose who starts!")
-    for i in range(3):
-        for j in range(3):
-            Buttons[i][j].config(text="", state=NORMAL, bg="#f0f0f0")
     startFrame.pack()
     gameFrame.pack_forget()
 
 def startGame(starter):
     global Turn
     Turn = 0 if starter == "Player" else 1
+    [Buttons[i][j].config(text="", state=NORMAL, bg="#f0f0f0") for i in range(3) for j in range(3)]
+    
     startFrame.pack_forget()
     gameFrame.pack()
+    
     label.config(text=f"{starter}'s Turn")
+    
     if Turn == 1:
         window.after(500, bestMove)
 
