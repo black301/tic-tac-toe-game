@@ -57,7 +57,7 @@ def checkWinner():
         
         if Buttons[0][i]["text"] == Buttons[1][i]["text"] == Buttons[2][i]["text"] != "":
             [Buttons[j][i].config(bg="green") for j in range(3)]
-            return 1 if Buttons[0][j]["text"] == "X" else -1
+            return 1 if Buttons[0][i]["text"] == "X" else -1
     
     if Buttons[0][0]["text"] == Buttons[1][1]["text"] == Buttons[2][2]["text"] != "":
         [Buttons[j][j].config(bg="green") for j in range(3)]
@@ -72,25 +72,24 @@ def checkWinner():
         return 2
     return 0
 def updateAfterMove():
-    result = checkWinner()
     global Turn
+    result = checkWinner()
     if result == 1:
         disableButtons()
         label.config(text="Player Wins!")
     elif result == -1:
         disableButtons()
-        label.config(text="AI Wins!")
+        label.config(text=" Ai wins and You will never win ")
     elif result == 2:
         disableButtons()
-        label.config(text="Tie!")
+        label.config(text=" it's a Tie and You will never win ")
     else:
         if Turn == 1:
-            Turn = 0
             label.config(text="Player's Turn")
         else:
-            Turn = 1
-            label.config(text="AI's Turn")
-            window.after(200, bestMove)
+            label.config(text="AI is Thinking")
+            window.after(500, bestMove)
+        Turn = 1 - Turn    
 
 def nextTurn(row, column):
     global Turn
@@ -108,23 +107,24 @@ def resetGame():
 
 def startGame(starter):
     global Turn
-    Turn = 0 if starter == "Player" else 1
+    # reset game btns
     [Buttons[i][j].config(text="", state=NORMAL, bg="#f0f0f0") for i in range(3) for j in range(3)]
-    
     startFrame.pack_forget()
     gameFrame.pack()
-    
-    label.config(text=f"{starter}'s Turn")
-    
-    if Turn == 1:
+    if starter == "AI":
+        Turn = 1
+        label.config(text=f"AI is Thinking")
         window.after(500, bestMove)
+    else:
+        Turn = 0    
+        label.config(text=f"Player's Turn")
 
 window = Tk()
-window.title("Tic Tac Toe with AI")
+window.title("AI Task")
 
 # Start Menu Frame
 startFrame = Frame(window)
-Label(startFrame, text="Who should start?", font=("Arial", 24)).pack(pady=20)
+Label(startFrame, text=" it is a tie or Ai Wins game\n but choose Who should start ", font=("Arial", 24)).pack(pady=20)
 Button(startFrame, text="Player", font=("Arial", 20), command=lambda: startGame("Player")).pack(pady=10)
 Button(startFrame, text="AI", font=("Arial", 20), command=lambda: startGame("AI")).pack(pady=10)
 startFrame.pack()
@@ -132,7 +132,7 @@ startFrame.pack()
 # Game Frame (initially hidden)
 gameFrame = Frame(window)
 
-label = Label(gameFrame, text="Choose who starts!", font=("Arial", 24))
+label = Label(gameFrame, font=("Arial", 24))
 label.pack(side=TOP, pady=20)
 
 resetBTN = Button(gameFrame, text="Reset", font=("Arial", 20), command=resetGame)
